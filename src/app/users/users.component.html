@@ -1,0 +1,6 @@
+<div class="user" *ngFor="let user of users">
+    <img src="{{user.picture}}" alt="{{user.name}}" class="avatar">
+</div>
+<div *ngIf="users.length > 0">
+    <app-card></app-card>
+</div>

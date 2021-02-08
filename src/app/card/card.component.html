@@ -1,3 +1,32 @@
-<div contentEditable="true" [ngStyle]="{ 'background-color': color }" class="card container">
-  {{ cardData }}
+<div class="containt">
+    <div id="section.name" class="row">
+        <h4 style="text-align: center;">
+            Tasks For This Week
+            <i id="addCard" class="fa fa-plus-circle" (click)="addCard()" title="Add"></i>
+        </h4>
+    </div>
+    <section *ngIf="tasks.length > 0" id="section.cards" class="card-section row col-md">
+        <div *ngFor="let task of tasks" class="card container">
+            <div>
+                <label>Task - </label>
+                <input type="text" [(ngModel)]="task.message" value="{{task.message}}" /> </div>
+            <div>
+                <label>Assigned To - </label>
+                <select [(ngModel)]="task.assigned_to">
+                  <option *ngFor="let user of users" [ngValue]="user.id">{{user.name}}</option>
+                </select> </div>
+            <div>
+                <label>Due date - </label>
+                <input type="date" min="2020-01-01" [ngModel]="task.due_date | date:'yyyy-MM-dd'" (ngModelChange)="task.due_date = $event " /></div>
+            <div>
+                <label>Priority - </label>
+                <input [(ngModel)]=" task.priority " value="{{task.priority}} " /></div>
+            <div *ngIf="task.id ">
+                <button type="button " class="btn btn-danger" (click)="deleteTask(task.id)">Delete</button>
+                <button type="button " class="btn btn-primary" (click)="updateTask(task)">Update</button>
+            </div>
+            <div *ngIf=" !task.id " type="button " class="btn btn-primary " (click)="addNewTask(task) ">Add</div>
+        </div>
+    </section>
 </div>
+<ngx-snackbar customClass="btn btn-primary" [position]="'bottom-right'" [max]="3"></ngx-snackbar>

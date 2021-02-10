@@ -30,9 +30,12 @@ export class CardComponent implements OnInit {
     this.taskSrc.getTaskList().subscribe(data => {
       this.tasks = data.tasks;
       this.tasks.map(x => x.due_date = moment(x.due_date).format('DD-MMM-YYYY'));
-      this.tasks = this.tasks.sort((d1, d2) => new Date(d1.due_date).getTime() - new Date(d2.due_date).getTime());
       this.searchRecords = this.tasks;
     });
+  }
+
+  sortTasks(){
+    this.tasks = this.tasks.sort((d1, d2) => new Date(d1.due_date).getTime() - new Date(d2.due_date).getTime());
   }
 
   addCard() {
@@ -46,7 +49,8 @@ export class CardComponent implements OnInit {
     this.taskSrc.createTask(formData).subscribe(res => {
       if (res.status == "success" && res.taskid) {
         task.id = res.taskid
-        task.assigned_name = this.users.filter(x => x.id == task.assigned_name)[0];
+        task.assigned_name = this.users.filter(x => x.id == task.assigned_to)[0].name;
+        this.sortTasks();
         this.snackbarService.add({
           msg: 'Record Added Successfully.',
           timeout: 3000,
@@ -69,6 +73,7 @@ export class CardComponent implements OnInit {
         this.taskSrc.deleteTask(formData).subscribe(res => {
           if (res.status == "success") {
             this.tasks = this.tasks.filter(x => x.id != id);
+            this.sortTasks();
             this.snackbarService.add({
               msg: 'Record Deleted Successfully.',
               timeout: 3000,
@@ -98,6 +103,7 @@ export class CardComponent implements OnInit {
     this.taskSrc.updateTask(formData).subscribe(res => {
       if (res.status == "success" && res.taskid) {
         task.id = res.taskid
+        this.sortTasks();
         this.snackbarService.add({
           msg: 'Record Updated Successfully.',
           timeout: 3000,

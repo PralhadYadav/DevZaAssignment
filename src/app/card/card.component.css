@@ -60,3 +60,22 @@ input {
     width: 250px;
     right: 0px;
 }
+
+.searchBar {
+    text-align: right;
+}
+
+.searchBar input,
+.searchBarBtn {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 0px 2px;
+}
+
+select {
+    background-color: #FA9A85;
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 0px 5px;
+}

@@ -30,6 +30,7 @@ export class CardComponent implements OnInit {
     this.taskSrc.getTaskList().subscribe(data => {
       this.tasks = data.tasks;
       this.tasks.map(x => x.due_date = moment(x.due_date).format('DD-MMM-YYYY'));
+      this.sortTasks();
       this.searchRecords = this.tasks;
     });
   }
